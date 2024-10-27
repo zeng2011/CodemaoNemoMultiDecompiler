@@ -57,10 +57,13 @@ class NemoDecompiler {
                 let f_material = f_user.folder("user_material");
                 let f_works = f_user.folder("user_works");
 
+                onUpdate(0)
+                let where = 0
                 for (let work_id of work_ids) {
+                    where++;
                     // 死妈空数据 我操你妈 你他妈害得我中断了 你妈死了
                     if (work_id == '') continue
-                    onUpdate(0)
+                    
                     let f_work = f_works.folder(work_id + "");
                     let f_record = f_work.folder("record");
                     // 储存了用户定义的资源，如果缺失会导致项目无法打开
@@ -134,7 +137,8 @@ class NemoDecompiler {
                             path: user_id + "/user_material/" + n
                         };
                         i++;
-                        onUpdate(i / len);
+                        if (work_ids.length == 1)
+                            onUpdate(i / len);
                     }
                     f_work.file(work_id + ".userimg", JSON.stringify(user_img));
 
@@ -160,7 +164,10 @@ class NemoDecompiler {
                     meta.publish_preview = info.preview;
                     f_work.file(work_id + ".cover", await Ajax.get(info.preview));
 
-                    onUpdate(1);
+                    if (work_ids.length == 1)
+                        onUpdate(1);
+                    else
+                        onUpdate(where / work_ids.length)
                 }
                 // 打包项目源代码
                 res({
