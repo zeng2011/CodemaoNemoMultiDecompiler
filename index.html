@@ -89,13 +89,18 @@
         let info
         $(".qd").click(() => {
             $(".xz").prop('disabled', true)
+            $(".qd").prop('disabled', true)
             NemoDecompiler.decompile($(".myid").val(), $(".workid").val().split(' '), (n) => {
                 pgr.css("width", (n * 100) + "%")
             }).then((data) => {
                 cache = data.data
                 info = data.info
                 $(".xz").prop('disabled', false)
-            }).catch((e) => alert('反编译出错: ' + e))
+                $(".qd").prop('disabled', false)
+            }).catch((e) => {
+                alert('反编译出错: ' + e)
+                $(".qd").prop('disabled', false)
+            })
         })
         $(".xz").click(() => {
             download(cache, "[Nemo]" + "批量下载作品集合" /* info.name */ + ".zip")
