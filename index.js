@@ -25,7 +25,10 @@ class Ajax {
                 success: function (data) {
                     res(data)
                 },
-                error: function (error) { }
+                error: function (error) {
+                    console.error(error)
+                    res(new ArrayBuffer(0))
+                }
             })
         })
     }
